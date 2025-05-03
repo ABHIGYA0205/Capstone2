@@ -13,14 +13,17 @@ export default function HomePage() {
       <section className="features">
         <div className="feature-card">
           <h2 className="feature-title">Browse Workouts</h2>
+          <img src='./image1.jpg'></img>
           <p>Explore curated workouts by category, body part, or fitness level.</p>
         </div>
         <div className="feature-card">
           <h2 className="feature-title">Watch Tutorials</h2>
+          <img src='./image2.jpg' style={{padding:'20px',margin:'10px auto'}}></img>
           <p>Follow professional video guides with step-by-step instructions.</p>
         </div>
         <div className="feature-card">
           <h2 className="feature-title">Track Favorites</h2>
+          <img src='./image3.webp' style={{padding:'20px',margin:'10px auto'}}></img>
           <p>Save your favorite workouts and easily access them anytime.</p>
         </div>
       </section>

@@ -1,17 +1,18 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import '../app/HomePage.css';
+
 export default function Navbar() {
-    return (
-      <nav className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
-        <img src="/logo.png" alt="logo" width={200} height={200} />
-        <ul className="flex space-x-6">
-        <Link href="/" className='hover:text-gray-300'>Home</Link>
-        <Link href="/workouts" className="hover:text-gray-300">Workouts</Link>
-        <Link href="/favorites" className="hover:text-gray-300">Favorites</Link>
-        <Link href="/about" className="hover:text-gray-300">About</Link>
-        <Link href="/contact" className="hover:text-gray-300">Contact</Link>
-        <Link href="/auth/login" className="hover:text-gray-300">Login</Link>
-        </ul>
-      </nav>
-    );
-  }
-  
+  return (
+    <nav className="navbar">
+      <img src="/logo.png" alt="logo" className="navbar-logo" />
+      <ul className="navbar-links">
+        <li><Link href="/" className="nav-link">Home</Link></li>
+        <li><Link href="/workouts" className="nav-link">Workouts</Link></li>
+        <li><Link href="/favorites" className="nav-link">Favorites</Link></li>
+        <li><Link href="/about" className="nav-link">About</Link></li>
+        <li><Link href="/contact" className="nav-link">Contact</Link></li>
+        <li><Link href="/auth/login" className="nav-link">Login</Link></li>
+      </ul>
+    </nav>
+  );
+}
