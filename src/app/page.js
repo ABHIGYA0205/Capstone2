@@ -1,0 +1,37 @@
+"use client"
+import '../app/HomePage.css'
+export default function HomePage() {
+  return (
+    <div className="home">
+      <section className="hero">
+        <h1 className="hero-title">Welcome to FitSphere</h1>
+        <p className="hero-subtitle">
+          Your all-in-one platform for personalized fitness tutorials and guided workouts.
+        </p>
+      </section>
+
+      <section className="features">
+        <div className="feature-card">
+          <h2 className="feature-title">Browse Workouts</h2>
+          <p>Explore curated workouts by category, body part, or fitness level.</p>
+        </div>
+        <div className="feature-card">
+          <h2 className="feature-title">Watch Tutorials</h2>
+          <p>Follow professional video guides with step-by-step instructions.</p>
+        </div>
+        <div className="feature-card">
+          <h2 className="feature-title">Track Favorites</h2>
+          <p>Save your favorite workouts and easily access them anytime.</p>
+        </div>
+      </section>
+
+      <section className="cta">
+        <h2 className="cta-title">Ready to get started?</h2>
+        <p className="cta-subtitle">Sign up now and start your fitness journey with FitSphere.</p>
+        <a href="/auth/signup" className="cta-button">
+          Join Now
+        </a>
+      </section>
+    </div>
+  );
+}
