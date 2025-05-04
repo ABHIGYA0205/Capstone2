@@ -1,0 +1,40 @@
+.navbar {
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family:monospace;
+  }
+  
+  .navbar-logo {
+    width: 150px;
+    height: auto;
+  }
+  
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-links li {
+    display: inline-block;
+  }
+  
+  .nav-link {
+    color: #fffbfb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #98a3b8; 
+  }
+  .auth{
+    border:2px solid;
+    padding: 0.5rem;
+  }

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import '../app/HomePage.css';
+import './Navbar.css';
 
 export default function Navbar() {
   return (
@@ -11,7 +11,11 @@ export default function Navbar() {
         <li><Link href="/favorites" className="nav-link">Favorites</Link></li>
         <li><Link href="/about" className="nav-link">About</Link></li>
         <li><Link href="/contact" className="nav-link">Contact</Link></li>
-        <li><Link href="/auth/login" className="nav-link">Login</Link></li>
+      </ul>
+
+      <ul className="navbar-links">
+        <li><Link href="/auth/login" className="nav-link  auth">Login</Link></li> 
+        <li><Link href="/auth/signup" className="nav-link  auth">Signup</Link></li>
       </ul>
     </nav>
   );
