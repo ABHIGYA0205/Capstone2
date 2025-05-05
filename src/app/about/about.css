@@ -1,0 +1,22 @@
+.about-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: monospace;
+  }
+  
+  .about-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .about-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    color: #333;
+    text-align: center;
+  }
+  

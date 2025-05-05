@@ -1,0 +1,55 @@
+.workout-page {
+    padding: 2rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .filters {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filters button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background: lightgray;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .filters .active-filter {
+    background: darkgray;
+    color: white;
+  }
+  
+  .workout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .workout-card {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .workout-card h3 {
+    margin: 0.5rem 0;
+  }
+  
+  .workout-card button {
+    margin-top: 0.5rem;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
