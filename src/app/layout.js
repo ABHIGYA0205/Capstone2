@@ -5,8 +5,10 @@ import Footer from '../components/Footer/Footer';
 export const metadata = {
   title: 'FitSphere',
   description: 'Your ultimate workout app',
+  icons: {
+    icon: '/icon.png', 
+  },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

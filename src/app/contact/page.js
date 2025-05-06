@@ -1,3 +1,4 @@
+'use client'
 import './contact.css'
 export default function ContactPage() {
   return (

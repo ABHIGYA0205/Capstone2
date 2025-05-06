@@ -31,7 +31,8 @@ export default function WorkoutsPage() {
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyword}&type=video&maxResults=12&key=${API_KEY}`
       );
       const data = await res.json();
-      setWorkouts(data.items);
+      console.log('YouTube API response:', data);
+      setWorkouts(data.items || []);
     } catch (err) {
       console.error('Failed to fetch videos:', err);
     }
