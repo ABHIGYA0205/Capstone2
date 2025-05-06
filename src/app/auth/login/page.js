@@ -1,11 +1,26 @@
-"use client"
+import Link from 'next/link';
+import './login.css'
 
-function Login() {
+const Login = () => {
   return (
-    <div>
-       <p> Don't have an account? <a href='/auth/signup' className='text-blue-600'> SignUp </a> First</p>
+    <div className='authContainer'>
+      <div className='authForm'>
+        <h2>Login</h2>
+        <form>
+          <div className='formGroup'>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div className='formGroup'>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" className='authButton'>Login</button>
+        </form>
+        <p>Don't have an account? <Link href="./signup">Sign up</Link></p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
