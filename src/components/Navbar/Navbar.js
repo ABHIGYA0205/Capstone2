@@ -8,6 +8,7 @@ export default function Navbar() {
       <ul className="navbar-links">
         <li><Link href="/" className="nav-link">Home</Link></li>
         <li><Link href="/workouts" className="nav-link">Workouts</Link></li>
+        <li><Link href="/tutorials" className="nav-link">Tutorials</Link></li>
         <li><Link href="/favorites" className="nav-link">Favorites</Link></li>
         <li><Link href="/about" className="nav-link">About</Link></li>
         <li><Link href="/contact" className="nav-link">Contact</Link></li>

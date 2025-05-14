@@ -1,6 +1,8 @@
 "use client"
 import { useEffect, useState } from 'react';
 import './Favorites.css'
+import Aos from 'aos';
+import "aos/dist/aos.css"
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);

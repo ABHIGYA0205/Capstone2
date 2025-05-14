@@ -1,87 +1,81 @@
 'use client';
 import { useEffect, useState } from 'react';
-import './Workout.css'
-
-const DIFFICULTIES = ['All', 'Easy', 'Medium', 'Hard'];
+import './Workout.css';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 export default function WorkoutsPage() {
+  const API_KEY = process.env.NEXT_PUBLIC_RAPID_API_KEY;
   const [workouts, setWorkouts] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [difficultyFilter, setDifficultyFilter] = useState('All');
-
-  const getKeyword = (level) => {
-    switch (level) {
-      case 'Easy': return 'beginner workout';
-      case 'Medium': return 'intermediate workout';
-      case 'Hard': return 'advanced workout';
-      default: return 'fitness workout';
-    }
-  };
+  const [filteredWorkouts, setFilteredWorkouts] = useState([]);
+  const [bodyParts, setBodyParts] = useState([]);
+  const [selectedPart, setSelectedPart] = useState('all');
 
   useEffect(() => {
-    fetchWorkouts(getKeyword(difficultyFilter));
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(savedFavorites);
-  }, [difficultyFilter]);
+    Aos.init();
 
-  const fetchWorkouts = async (keyword) => {
-    const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-    try {
-      const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyword}&type=video&maxResults=12&key=${API_KEY}`
-      );
-      const data = await res.json();
-      console.log('YouTube API response:', data);
-      setWorkouts(data.items || []);
-    } catch (err) {
-      console.error('Failed to fetch videos:', err);
+    const fetchExercisesData = async () => {
+      try {
+        const response = await fetch('https://exercisedb.p.rapidapi.com/exercises', {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
+          },
+        });
+        const exercisesData = await response.json();
+        setWorkouts(exercisesData);
+        setFilteredWorkouts(exercisesData);
+
+
+        const parts = ['all', ...new Set(exercisesData.map((ex) => ex.bodyPart))];
+        setBodyParts(parts);
+      } catch (error) {
+        console.error('Error fetching workouts:', error);
+      }
+    };
+
+    fetchExercisesData();
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedPart === 'all') {
+      setFilteredWorkouts(workouts);
+    } else {
+      const filtered = workouts.filter((w) => w.bodyPart === selectedPart);
+      setFilteredWorkouts(filtered);
     }
-  };
-
-  const toggleFavorite = (videoId) => {
-    const updated = favorites.includes(videoId)
-      ? favorites.filter(id => id !== videoId)
-      : [...favorites, videoId];
-    setFavorites(updated);
-    localStorage.setItem('favorites', JSON.stringify(updated));
-  };
+  }, [selectedPart, workouts]);
 
   return (
-    <div className="workout-page">
-      <h1 className="title">Workout Tutorials</h1>
+    <div className="workouts-container">
+      <h1>Workout Gallery</h1>
 
-      <div className="filters">
-        {DIFFICULTIES.map(level => (
-          <button
-            key={level}
-            onClick={() => setDifficultyFilter(level)}
-            className={difficultyFilter === level ? 'active-filter' : ''}
-          >
-            {level}
-          </button>
-        ))}
+      <div className="filter-section">
+        <label htmlFor="bodyPart">Filter by Body Part:</label>
+        <select
+          id="bodyPart"
+          value={selectedPart}
+          onChange={(e) => setSelectedPart(e.target.value)}
+        >
+          {bodyParts.map((part, i) => (
+            <option key={i} value={part}>
+              {part.charAt(0).toUpperCase() + part.slice(1)}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="workout-grid">
-        {workouts.map(({ id, snippet }) => {
-          const videoId = id.videoId;
-          const isFav = favorites.includes(videoId);
-          return (
-            <div key={videoId} className="workout-card">
-              <iframe
-                width="100%"
-                height="200"
-                src={`https://www.youtube.com/embed/${videoId}`}
-                title={snippet.title}
-                allowFullScreen
-              />
-              <h3>{snippet.title}</h3>
-              <button onClick={() => toggleFavorite(videoId)}>
-                {isFav ? '★ Remove Favorite' : '☆ Add Favorite'}
-              </button>
-            </div>
-          );
-        })}
+        {filteredWorkouts.map((w, i) => (
+          <div key={i} className="workout-card" data-aos="fade-up">
+            <img src={w.gifUrl} alt={w.name} className="workout-image" />
+            <h3>{w.name}</h3>
+            <p>Body Part: {w.bodyPart}</p>
+            <p>Target: {w.target}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

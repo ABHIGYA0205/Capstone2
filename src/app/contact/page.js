@@ -1,8 +1,11 @@
 'use client'
 import './contact.css'
+import Aos from 'aos';
+import "aos/dist/aos.css"
 export default function ContactPage() {
   return (
-    <div className="contact-container">
+    <div className="contact-container"
+    data-aos="zoom-in">
       <h1 className="contact-title">Contact Us</h1>
       <p className="contact-text">Have a question or feedback? We'd love to hear from you.</p>
       

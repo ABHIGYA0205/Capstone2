@@ -1,0 +1,113 @@
+.tutorial-page {
+    padding: 2rem;
+    font-family: monospace;
+  }
+  
+  .title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .filters {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filters button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgb(94, 123, 255);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .filters .active-filter {
+    background: rgba(94, 124, 255, 0.539);
+    color: rgb(0, 0, 0);
+  }
+  
+  .tutorial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .tutorial-card {
+    background-color: rgb(37, 37, 37);
+    color: aliceblue;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .tutorial-card h3 {
+    margin: 0.5rem 0;
+  }
+  
+  .tutorial-card button {
+    margin-top: 0.5rem;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .tutorial-page {
+        padding: 1.5rem;
+    }
+  
+    .title {
+        font-size: 1.8rem;
+    }
+  
+    .filters button {
+        padding: 0.4rem 0.9rem;
+    }
+  
+    .tutorial-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+  
+    .tutorial-card {
+        padding: 0.8rem;
+    }
+  
+    .tutorial-card button {
+        padding: 0.4rem 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tutorial-page {
+        padding: 1rem;
+    }
+  
+    .title {
+        font-size: 1.6rem;
+    }
+  
+    .filters button {
+        padding: 0.3rem 0.8rem;
+    }
+  
+    .tutorial-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+  
+    .tutorial-card {
+        padding: 0.6rem;
+    }
+  
+    .tutorial-card button {
+        padding: 0.3rem 0.8rem;
+    }
+  }
+  
+  

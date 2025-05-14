@@ -1,5 +1,5 @@
 .home {
-  min-height: 100vh;
+  min-height: 50vh;
   background-color: #FFFFFF;
   padding: 1.5rem;
   font-family: monospace;
@@ -113,4 +113,19 @@
   .cta-button {
       padding: 0.6rem 1.2rem;
   }
+}
+
+.imageCards{
+  padding:20px;
+  margin:10px auto;
+  overflow: hidden;
+  transition:transform 0.3s ease-in-out
+}
+.imageCards:hover{
+  transform: scale(1.2);
+}
+.imagebackgorund{
+  overflow: hidden;
+  border: 20px solid black;
+
 }

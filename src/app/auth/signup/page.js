@@ -2,11 +2,16 @@
 
 import Link from 'next/link';
 import './signup.css'; 
+import Aos from 'aos';
+import "aos/dist/aos.css"
 
 const Signup = () => {
   return (
-    <div className='authContainer'>
-      <div className='authForm'>
+    <div className='authContainer'
+    data-aos="fade-in"
+     data-aos-easing="linear"
+     data-aos-duration="500">
+      <div className='authForm' >
         <h2>Sign Up</h2>
         <form>
           <div className='formGroup'>

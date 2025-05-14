@@ -1,110 +1,65 @@
-.workout-page {
+.workouts-container {
   padding: 2rem;
+  font-family: monospace;
+  text-align: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.filters {
-  text-align: center;
+h1 {
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
 }
 
-.filters button {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgb(94, 123, 255);
-  border: none;
-  cursor: pointer;
+.filter-section {
+  margin-bottom: 2rem;
 }
 
-.filters .active-filter {
-  background: rgba(94, 124, 255, 0.539);
-  color: rgb(0, 0, 0);
+.filter-section label {
+  margin-right: 0.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.filter-section select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 .workout-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
 }
 
 .workout-card {
-  background-color: rgb(37, 37, 37);
-  color: aliceblue;
+  background: #fff;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.workout-card:hover {
+  transform: translateY(-5px);
+}
+
+.workout-image {
+  width: 100%;
+  height: auto;
   border-radius: 8px;
-  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .workout-card h3 {
-  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
-.workout-card button {
-  margin-top: 0.5rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-@media (max-width: 768px) {
-  .workout-page {
-      padding: 1.5rem;
-  }
-
-  .title {
-      font-size: 1.8rem;
-  }
-
-  .filters button {
-      padding: 0.4rem 0.9rem;
-  }
-
-  .workout-grid {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-  }
-
-  .workout-card {
-      padding: 0.8rem;
-  }
-
-  .workout-card button {
-      padding: 0.4rem 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .workout-page {
-      padding: 1rem;
-  }
-
-  .title {
-      font-size: 1.6rem;
-  }
-
-  .filters button {
-      padding: 0.3rem 0.8rem;
-  }
-
-  .workout-grid {
-      grid-template-columns: 1fr;
-      gap: 0.8rem;
-  }
-
-  .workout-card {
-      padding: 0.6rem;
-  }
-
-  .workout-card button {
-      padding: 0.3rem 0.8rem;
-  }
+.workout-card p {
+  font-size: 0.95rem;
+  margin: 0.2rem 0;
+  color: #555;
 }

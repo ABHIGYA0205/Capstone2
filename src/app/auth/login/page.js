@@ -1,10 +1,15 @@
 "use client"
 import Link from 'next/link';
 import './login.css'
+import Aos from 'aos';
+import "aos/dist/aos.css"
 
 const Login = () => {
   return (
-    <div className='authContainer'>
+    <div className='authContainer'
+    data-aos="fade-in"
+     data-aos-easing="linear"
+     data-aos-duration="500">
       <div className='authForm'>
         <h2>Login</h2>
         <form>
