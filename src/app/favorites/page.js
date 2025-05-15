@@ -1,22 +1,46 @@
-"use client"
+'use client';
 import { useEffect, useState } from 'react';
-import './Favorites.css'
+import './Favorites.css';
 import Aos from 'aos';
-import "aos/dist/aos.css"
+import 'aos/dist/aos.css';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/app/firebase/config';
+import { useRouter } from 'next/navigation';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(saved);
+    Aos.init({ duration: 600 });
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/auth/login');
+      } else {
+        setReady(true);
+      }
+    }
+  }, [user, loading, router]);
+
+  useEffect(() => {
+    if (ready) {
+      const saved = JSON.parse(localStorage.getItem('favorites')) || [];
+      setFavorites(saved);
+    }
+  }, [ready]);
 
   const removeFromFavorites = (videoIdToRemove) => {
     const updatedFavorites = favorites.filter((id) => id !== videoIdToRemove);
     setFavorites(updatedFavorites);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
+
+  if (loading || !ready) return null;
 
   return (
     <div className="favorites-container">

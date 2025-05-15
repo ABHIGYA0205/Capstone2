@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import './Workout.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/app/firebase/config';
+import { useRouter } from 'next/navigation';
 
 export default function WorkoutsPage() {
   const API_KEY = process.env.NEXT_PUBLIC_RAPID_API_KEY;
@@ -11,8 +14,26 @@ export default function WorkoutsPage() {
   const [bodyParts, setBodyParts] = useState([]);
   const [selectedPart, setSelectedPart] = useState('all');
 
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    Aos.init();
+    Aos.init({ duration: 600 });
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/auth/login');
+      } else {
+        setReady(true);
+      }
+    }
+  }, [user, loading, router]);
+
+  useEffect(() => {
+    if (!ready) return;
 
     const fetchExercisesData = async () => {
       try {
@@ -27,7 +48,6 @@ export default function WorkoutsPage() {
         setWorkouts(exercisesData);
         setFilteredWorkouts(exercisesData);
 
-
         const parts = ['all', ...new Set(exercisesData.map((ex) => ex.bodyPart))];
         setBodyParts(parts);
       } catch (error) {
@@ -36,8 +56,7 @@ export default function WorkoutsPage() {
     };
 
     fetchExercisesData();
-  }, []);
-
+  }, [API_KEY, ready]);
 
   useEffect(() => {
     if (selectedPart === 'all') {
@@ -47,6 +66,8 @@ export default function WorkoutsPage() {
       setFilteredWorkouts(filtered);
     }
   }, [selectedPart, workouts]);
+
+  if (loading || !ready) return <p style={{ textAlign: 'center' }}>Loading...</p>;
 
   return (
     <div className="workouts-container">

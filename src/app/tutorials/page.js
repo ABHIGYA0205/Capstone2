@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import './tutorial.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/app/firebase/config';
+import { useRouter } from 'next/navigation';
 
 const DIFFICULTY_MAP = {
-  'All': 'fitness tutorial',
+  All: 'fitness tutorial',
   'Getting Started': 'beginner tutorial',
   'Step It Up': 'intermediate tutorial',
-  'Beast Mode': 'advanced tutorial'
+  'Beast Mode': 'advanced tutorial',
 };
 
 const DIFFICULTIES = Object.keys(DIFFICULTY_MAP);
@@ -18,16 +21,32 @@ export default function TutorialsPage() {
   const [favorites, setFavorites] = useState([]);
   const [difficultyFilter, setDifficultyFilter] = useState('All');
 
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     Aos.init({});
   }, []);
 
   useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/auth/login');
+      } else {
+        setReady(true);
+      }
+    }
+  }, [user, loading, router]);
+
+  useEffect(() => {
+    if (!ready) return;
+
     const keyword = DIFFICULTY_MAP[difficultyFilter];
     fetchWorkouts(keyword);
     const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(savedFavorites);
-  }, [difficultyFilter]);
+  }, [difficultyFilter, ready]);
 
   const fetchWorkouts = async (keyword) => {
     const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
@@ -36,7 +55,6 @@ export default function TutorialsPage() {
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyword}&type=video&maxResults=12&key=${API_KEY}`
       );
       const data = await res.json();
-      console.log('YouTube API response:', data);
       setWorkouts(data.items || []);
     } catch (err) {
       console.error('Failed to fetch videos:', err);
@@ -45,18 +63,20 @@ export default function TutorialsPage() {
 
   const toggleFavorite = (videoId) => {
     const updated = favorites.includes(videoId)
-      ? favorites.filter(id => id !== videoId)
+      ? favorites.filter((id) => id !== videoId)
       : [...favorites, videoId];
     setFavorites(updated);
     localStorage.setItem('favorites', JSON.stringify(updated));
   };
+
+  if (loading || !ready) return <p>Loading...</p>;
 
   return (
     <div className="tutorial-page" data-aos="fade-up">
       <h1 className="title">Tutorials</h1>
 
       <div className="filters" data-aos="zoom-out">
-        {DIFFICULTIES.map(level => (
+        {DIFFICULTIES.map((level) => (
           <button
             key={level}
             onClick={() => setDifficultyFilter(level)}
@@ -67,7 +87,12 @@ export default function TutorialsPage() {
         ))}
       </div>
 
-      <div className="tutorial-grid" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">
+      <div
+        className="tutorial-grid"
+        data-aos="fade-up"
+        data-aos-easing="linear"
+        data-aos-duration="1000"
+      >
         {workouts.map(({ id, snippet }) => {
           const videoId = id.videoId;
           const isFav = favorites.includes(videoId);
