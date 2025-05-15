@@ -18,20 +18,25 @@ const Login = () => {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
-const handleLogin=async (e)=>{
-  e.preventDefault();
-  try {
-    const res = await signInWithEmailAndPassword(email, password)
-    console.log({res})
-    sessionStorage.setItem('user',true)
-    setEmail("")
-    setPassword("")
-    router.push('/');
-  }
-  catch (e) {
-    console.error(e)
-  }
-}
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await signInWithEmailAndPassword(email, password);
+      
+      if (res && res.user) {
+        console.log('Logged in user:', res.user);
+        sessionStorage.setItem('user', true);
+        setEmail('');
+        setPassword('');
+        router.push('/');
+      } else {
+        alert('Invalid email or password.');
+      }
+    } catch (e) {
+      console.error('Login error:', e);
+      alert('Login failed. Please check your credentials.');
+    }
+  };
   return (
     <div className='authContainer'
     data-aos="fade-in"

@@ -8,7 +8,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 export default function Navbar() {
   const [user, loading] = useAuthState(auth);
 
-  if (loading) return null; // or a loading spinner
 
   return (
     <nav className="navbar">
