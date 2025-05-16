@@ -47,7 +47,7 @@ export default function FavoritesPage() {
       <h1 className="favorites-title">Your Favorite Workouts</h1>
 
       {favorites.length === 0 ? (
-        <p className="no-favorites">You haven't added any workouts to favorites yet.</p>
+        <p className="no-favorites">You haven&apos;t added any workouts to favorites yet.</p>
       ) : (
         <div className="favorites-grid">
           {favorites.map((videoId) => (

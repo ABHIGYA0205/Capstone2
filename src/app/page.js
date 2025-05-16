@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image'; 
 
 export default function HomePage() {
   const [user, loading] = useAuthState(auth);
@@ -13,7 +14,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const userSession = sessionStorage.getItem('user');
-
     if (!loading && !user && !userSession) {
       router.push('/auth/signup');
     } else {
@@ -21,7 +21,7 @@ export default function HomePage() {
     }
   }, [user, loading, router]);
 
-  if (!ready) return null; 
+  if (!ready) return null;
 
   return (
     <div className="home">
@@ -39,7 +39,13 @@ export default function HomePage() {
           <h2 className="feature-title">Browse Workouts</h2>
           <Link href="./workouts">
             <div className="imagebackgorund">
-              <img src="./image1.jpg" className="imageCards" />
+              <Image
+                src="/image1.jpg"
+                alt="Browse workouts"
+                width={400}
+                height={300}
+                className="imageCards"
+              />
             </div>
           </Link>
           <p>Explore curated workouts by category, body part, or fitness level.</p>
@@ -49,7 +55,13 @@ export default function HomePage() {
           <h2 className="feature-title">Watch Tutorials</h2>
           <Link href="./tutorials">
             <div className="imagebackgorund">
-              <img src="./image2.jpg" className="imageCards" />
+              <Image
+                src="/image2.jpg"
+                alt="Watch tutorials"
+                width={400}
+                height={300}
+                className="imageCards"
+              />
             </div>
           </Link>
           <p>Follow professional video guides with step-by-step instructions.</p>
@@ -59,7 +71,13 @@ export default function HomePage() {
           <h2 className="feature-title">Track Favorites</h2>
           <Link href="./favorites">
             <div className="imagebackgorund">
-              <img src="./image3.webp" className="imageCards" />
+              <Image
+                src="/image3.webp"
+                alt="Track favorites"
+                width={400}
+                height={300}
+                className="imageCards"
+              />
             </div>
           </Link>
           <p>Save your favorite workouts and easily access them anytime.</p>

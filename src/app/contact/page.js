@@ -60,7 +60,7 @@ export default function ContactPage() {
   return (
     <div className="contact-container" data-aos="zoom-out">
       <h1 className="contact-title">Contact Us</h1>
-      <p className="contact-text">Have a question or feedback? We'd love to hear from you.</p>
+      <p className="contact-text">Have a question or feedback? We&apos;d love to hear from you.</p>
 
       <form className="contact-form" onSubmit={handleSubmit}>
         <label>Name:</label>

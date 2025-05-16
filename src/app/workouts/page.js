@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image'; 
 
 export default function WorkoutsPage() {
   const API_KEY = process.env.NEXT_PUBLIC_RAPID_API_KEY;
@@ -91,7 +92,13 @@ export default function WorkoutsPage() {
       <div className="workout-grid">
         {filteredWorkouts.map((w, i) => (
           <div key={i} className="workout-card" data-aos="fade-up">
-            <img src={w.gifUrl} alt={w.name} className="workout-image" />
+            <Image
+              src={w.gifUrl}
+              alt={w.name}
+              width={400}
+              height={400}
+              className="workout-image"
+            />
             <h3>{w.name}</h3>
             <p>Body Part: {w.bodyPart}</p>
             <p>Target: {w.target}</p>

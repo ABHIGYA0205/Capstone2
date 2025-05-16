@@ -4,14 +4,25 @@ import './Navbar.css';
 import { auth } from '@/app/firebase/config';
 import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import Image from 'next/image'; 
 
 export default function Navbar() {
   const [user, loading] = useAuthState(auth);
 
-
   return (
     <nav className="navbar">
-      <img src="/logo.png" alt="logo" className="navbar-logo" />
+      <Link href="/">
+        <div className="navbar-logo">
+          <Image
+            src="/logo.png"
+            alt="FitSphere Logo"
+            width={140}
+            height={40}
+            priority
+          />
+        </div>
+      </Link>
+
       <ul className="navbar-links">
         {user && (
           <>
@@ -28,12 +39,20 @@ export default function Navbar() {
       <ul className="navbar-links">
         {!user && (
           <>
-            <li><Link href="/auth/login" className="nav-link  auth">Login</Link></li>
+            <li><Link href="/auth/login" className="nav-link auth">Login</Link></li>
             <li><Link href="/auth/signup" className="nav-link auth">Signup</Link></li>
           </>
         )}
         {user && (
-          <li><button onClick={() => signOut(auth)} className="auth">Log Out</button></li>
+          <li>
+            <button
+              onClick={() => signOut(auth)}
+              className="auth"
+              aria-label="Log out"
+            >
+              Log Out
+            </button>
+          </li>
         )}
       </ul>
     </nav>
