@@ -84,15 +84,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="cta">
-        <h2 className="cta-title">Ready to get started?</h2>
-        <p className="cta-subtitle">
-          Sign up now and start your fitness journey with FitSphere.
-        </p>
-        <a href="/auth/signup" className="cta-button">
-          Join Now
-        </a>
-      </section>
     </div>
   );
 }
