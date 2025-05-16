@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
-
+import Swal from 'sweetalert2';
 import './signup.css';
 
 const Signup = () => {
@@ -40,7 +40,11 @@ const Signup = () => {
         sessionStorage.setItem('user', 'true');
         setEmail("");
         setPassword("");
-        alert('User registered successfully!');
+        Swal.fire({
+          title: "Success!",
+          text: "Your have been successfully registered!",
+          icon: "success",
+        })
         router.push('/auth/login');
       }
     } catch (err) {
