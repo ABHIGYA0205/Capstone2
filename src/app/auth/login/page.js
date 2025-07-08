@@ -69,7 +69,7 @@ const Login = () => {
         <p>Don&apos;t have an account? <Link href="./signup">Sign up</Link></p>
       </div>
     </div>
-  );
+  );         
 };
 
 export default Login;

@@ -4,8 +4,14 @@ import './Favorites.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/app/firebase/config';
+import { auth, db } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc
+} from 'firebase/firestore';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
@@ -28,16 +34,29 @@ export default function FavoritesPage() {
   }, [user, loading, router]);
 
   useEffect(() => {
-    if (ready) {
-      const saved = JSON.parse(localStorage.getItem('favorites')) || [];
-      setFavorites(saved);
+    if (ready && user) {
+      const fetchFavorites = async () => {
+        try {
+          const favRef = collection(db, 'users', user.uid, 'favorites');
+          const snapshot = await getDocs(favRef);
+          const vids = snapshot.docs.map(doc => doc.id);
+          setFavorites(vids);
+        } catch (error) {
+          console.error('Error fetching favorites from Firestore:', error);
+        }
+      };
+      fetchFavorites();
     }
-  }, [ready]);
+  }, [ready, user]);
 
-  const removeFromFavorites = (videoIdToRemove) => {
-    const updatedFavorites = favorites.filter((id) => id !== videoIdToRemove);
-    setFavorites(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  const removeFromFavorites = async (videoIdToRemove) => {
+    try {
+      await deleteDoc(doc(db, 'users', user.uid, 'favorites', videoIdToRemove));
+      const updated = favorites.filter((id) => id !== videoIdToRemove);
+      setFavorites(updated);
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+    }
   };
 
   if (loading || !ready) return null;

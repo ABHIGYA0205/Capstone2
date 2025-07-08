@@ -4,14 +4,21 @@ import './tutorial.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/app/firebase/config';
+import { auth, db } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
 
 const DIFFICULTY_MAP = {
   All: 'fitness tutorial',
-  'Getting Started': 'beginner tutorial',
-  'Step It Up': 'intermediate tutorial',
-  'Beast Mode': 'advanced tutorial',
+  'Getting Started': 'beginner fitness tutorial',
+  'Step It Up': 'intermediate fitness tutorial',
+  'Beast Mode': 'advanced fitness tutorial',
 };
 
 const DIFFICULTIES = Object.keys(DIFFICULTY_MAP);
@@ -20,6 +27,7 @@ export default function TutorialsPage() {
   const [workouts, setWorkouts] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [difficultyFilter, setDifficultyFilter] = useState('All');
+  const [isLoadingVideos, setIsLoadingVideos] = useState(false);
 
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -41,15 +49,14 @@ export default function TutorialsPage() {
 
   useEffect(() => {
     if (!ready) return;
-
     const keyword = DIFFICULTY_MAP[difficultyFilter];
     fetchWorkouts(keyword);
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(savedFavorites);
+    fetchFavorites();
   }, [difficultyFilter, ready]);
 
   const fetchWorkouts = async (keyword) => {
     const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+    setIsLoadingVideos(true);
     try {
       const res = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyword}&type=video&maxResults=12&key=${API_KEY}`
@@ -58,15 +65,36 @@ export default function TutorialsPage() {
       setWorkouts(data.items || []);
     } catch (err) {
       console.error('Failed to fetch videos:', err);
+    } finally {
+      setIsLoadingVideos(false);
     }
   };
 
-  const toggleFavorite = (videoId) => {
-    const updated = favorites.includes(videoId)
-      ? favorites.filter((id) => id !== videoId)
-      : [...favorites, videoId];
-    setFavorites(updated);
-    localStorage.setItem('favorites', JSON.stringify(updated));
+  const fetchFavorites = async () => {
+    try {
+      const favRef = collection(db, 'users', user.uid, 'favorites');
+      const snapshot = await getDocs(favRef);
+      const favIds = snapshot.docs.map((doc) => doc.id);
+      setFavorites(favIds);
+    } catch (err) {
+      console.error('Failed to fetch favorites:', err);
+    }
+  };
+
+  const toggleFavorite = async (videoId) => {
+    const docRef = doc(db, 'users', user.uid, 'favorites', videoId);
+
+    try {
+      if (favorites.includes(videoId)) {
+        await deleteDoc(docRef);
+        setFavorites((prev) => prev.filter((id) => id !== videoId));
+      } else {
+        await setDoc(docRef, { addedAt: new Date() });
+        setFavorites((prev) => [...prev, videoId]);
+      }
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+    }
   };
 
   if (loading || !ready) return <p>Loading...</p>;
@@ -87,32 +115,37 @@ export default function TutorialsPage() {
         ))}
       </div>
 
-      <div
-        className="tutorial-grid"
-        data-aos="fade-up"
-        data-aos-easing="linear"
-        data-aos-duration="1000"
-      >
-        {workouts.map(({ id, snippet }) => {
-          const videoId = id.videoId;
-          const isFav = favorites.includes(videoId);
-          return (
-            <div key={videoId} className="tutorial-card" data-aos="zoom-in">
-              <iframe
-                width="100%"
-                height="200"
-                src={`https://www.youtube.com/embed/${videoId}`}
-                title={snippet.title}
-                allowFullScreen
-              />
-              <h3>{snippet.title}</h3>
-              <button onClick={() => toggleFavorite(videoId)}>
-                {isFav ? '★ Remove Favorite' : '☆ Add Favorite'}
-              </button>
-            </div>
-          );
-        })}
-      </div>
+      {isLoadingVideos ? (
+        <p style={{ textAlign: 'center' }}>Fetching videos...</p>
+      ) : (
+        <div
+          className="tutorial-grid"
+          data-aos="fade-up"
+          data-aos-easing="linear"
+          data-aos-duration="1000"
+        >
+          {workouts.map(({ id, snippet }) => {
+            const videoId = id.videoId;
+            const isFav = favorites.includes(videoId);
+            return (
+              <div key={videoId} className="tutorial-card" data-aos="zoom-in">
+                <iframe
+                  width="100%"
+                  height="200"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title={snippet.title}
+                  allowFullScreen
+                />
+                <h3>{snippet.title}</h3>
+                <button onClick={() => toggleFavorite(videoId)}>
+                  {isFav ? '★ Remove Favorite' : '☆ Add Favorite'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
+ig
