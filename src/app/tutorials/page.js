@@ -55,7 +55,7 @@ export default function TutorialsPage() {
   }, [difficultyFilter, ready]);
 
   const fetchWorkouts = async (keyword) => {
-    const API_KEY =AIzaSyDi0pLrtbLRzc8KqpbucVXXKSqwo7Ke_Ig;
+    const API_KEY ="AIzaSyDi0pLrtbLRzc8KqpbucVXXKSqwo7Ke_Ig";
     setIsLoadingVideos(true);
     try {
       const res = await fetch(
