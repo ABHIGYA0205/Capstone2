@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image'; 
 
 export default function WorkoutsPage() {
-  const API_KEY = 8d88c9d026msh3cc9eOba5a73070p1f2f01jsn4d3634959458;
+  const API_KEY = "8d88c9d026msh3cc9eOba5a73070p1f2f01jsn4d3634959458";
   const [workouts, setWorkouts] = useState([]);
   const [filteredWorkouts, setFilteredWorkouts] = useState([]);
   const [bodyParts, setBodyParts] = useState([]);
