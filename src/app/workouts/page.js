@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image'; 
 
 export default function WorkoutsPage() {
-  const API_KEY = "8d88c9d026msh3cc9eOba5a73070p1f2f01jsn4d3634959458";
+  const API_KEY = process.env.NEXT_PUBLIC_RAPID_API_KEY;
   const [workouts, setWorkouts] = useState([]);
   const [filteredWorkouts, setFilteredWorkouts] = useState([]);
   const [bodyParts, setBodyParts] = useState([]);
@@ -90,21 +90,26 @@ export default function WorkoutsPage() {
       </div>
 
       <div className="workout-grid">
-        {filteredWorkouts.map((w, i) => (
-          <div key={i} className="workout-card" data-aos="fade-up">
-            <Image
-              src={w.gifUrl}
-              alt={w.name}
-              width={400}
-              height={400}
-              className="workout-image"
-            />
-            <h3>{w.name}</h3>
-            <p>Body Part: {w.bodyPart}</p>
-            <p>Target: {w.target}</p>
-          </div>
-        ))}
-      </div>
+        
+  {
+  filteredWorkouts.map((w, i) => (
+    <div key={i} className="workout-card" data-aos="fade-up">
+      <Image
+        src={w.gifUrl || "/default-workout.png"}  
+        alt={w.name || "Workout image"}
+        width={400}
+        height={400}
+        className="workout-image"
+      />
+      <h3>{w.name}</h3>
+      <p>Body Part: {w.bodyPart}</p>
+      <p>Target: {w.target}</p>
     </div>
+  ))}
+</div>
+
+
+    </div>
+    
   );
 }
